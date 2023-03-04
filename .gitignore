@@ -4,3 +4,6 @@ tests/
 *.jar
 *.md5
 cache
+*.tar.gz
+elastic-agent-*
+*.env

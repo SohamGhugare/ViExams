@@ -6,3 +6,4 @@ tests/
 cache
 *.tar.gz
 elastic-agent-*
+*.env

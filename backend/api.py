@@ -21,8 +21,9 @@ async def upload_image(file: UploadFile = File()):
     course = OcrUtility().parse_course(f"backend/cache/{file.filename}")
 
     # return {"data": "Successfully uploaded image!", "status": 200}
-    return {"data": {
-        "course": course
+    return {"response": {
+        "status": 200,
+        "data": "Successfully Uploaded!"
     }}
     
 

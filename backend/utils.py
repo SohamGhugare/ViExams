@@ -33,7 +33,6 @@ class DiscordUtility(commands.Cog):
     async def on_ready(self):
         self.debug_guild = self.bot.get_guild(1081601039645544528)
 
-
     @property
     def _predefined_courses(self) -> List[discord.CategoryChannel]:
         channels = self.debug_guild.channels
@@ -49,7 +48,10 @@ class DiscordUtility(commands.Cog):
             )
         for channel in self.debug_guild.channels:
             if channel.name == img_course:
-                await channel.send(file=discord.File(img_path))
+                msg = await channel.send(file=discord.File(img_path))
+                img = msg.attachments[0]
+                ch = self.debug_guild.get_channel(1081625462784151652)
+                await ch.send(f"{img_course} - `{img.url}`")
 
     @commands.command()
     async def test_upload(self, ctx: commands.Context, img_path: str):

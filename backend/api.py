@@ -1,14 +1,11 @@
 from fastapi import FastAPI, File, UploadFile
 import uvicorn
-from ocr import OCR
-
+from utils import OcrUtility
 
 app = FastAPI(
     title="ViExams API",
     debug=True
 )
-
-ocr = OCR()
 
 @app.get("/api/")
 async def index():
@@ -21,7 +18,12 @@ async def upload_image(file: UploadFile = File()):
     with open(f"backend/cache/{file.filename}", "wb") as f:
         f.write(contents)
 
-    return {"data": "Successfully uploaded image!", "status": 200}
+    course = OcrUtility().parse_course(f"backend/cache/{file.filename}")
+
+    # return {"data": "Successfully uploaded image!", "status": 200}
+    return {"data": {
+        "course": course
+    }}
     
 
 if __name__ == "__main__":

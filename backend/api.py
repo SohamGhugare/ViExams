@@ -16,13 +16,13 @@ async def index():
 
 @app.post("/api/upload")
 async def upload_image(file: UploadFile = File()):
-    # contents = file.file.read()
 
     contents = file.file.read()
-    with open(file.filename, "wb") as f:
+    with open(f"backend/cache/{file.filename}", "wb") as f:
         f.write(contents)
-    with open(file.filename, "rb") as f:    
-        return {"data": f.read()}
+
+    return {"data": "Successfully uploaded image!", "status": 200}
+    
 
 if __name__ == "__main__":
     uvicorn.run("api:app", reload=True)

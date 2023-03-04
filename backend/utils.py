@@ -12,7 +12,10 @@ class OcrUtility:
             extract = OCR().ocr(img)
             courses = [
                 "Engineering Chemistry",
-                "Calculus"
+                "Calculus",
+                "Basic Electrical and Electronics Engineering",
+                "Engineering Physics",
+                "Engineering Mechanics"
             ]
             for course in courses:
                 if course in extract:

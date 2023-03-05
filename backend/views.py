@@ -36,3 +36,25 @@ class CourseDropdownView(View):
         self.bot = bot_
         self.time = time
         super().__init__(CourseDropdown(self.bot, time=time))
+
+class ChoiceButton(View):
+    def __init__(self, bot_):
+        super().__init__()
+        self.value = None
+        self.bot = bot_
+    
+    @discord.ui.button(label="Upload", style=discord.ButtonStyle.green)
+    async def confirm_callback(
+        self, button: discord.ui.Button, interaction: discord.Interaction
+    ):
+        await interaction.message.channel.send("Please send your image here to upload")
+        self.value = True
+        self.stop()
+
+    @discord.ui.button(label="Fetch", style=discord.ButtonStyle.green)
+    async def cancel_callback(
+        self, button: discord.ui.Button, interaction: discord.Interaction
+    ):
+        await interaction.message.channel.send("Hey, I'm here to provide you with question papers!", view=CourseDropdownView(self.bot))
+        self.value = True
+        self.stop()

@@ -26,6 +26,15 @@ class Database:
             if course:
                 return session.exec(select(Link).where(Link.course == course)).all()
             return session.exec(select(Link)).all()
+        
+    def fetch_courses(self) -> List[str]:
+        with self.session as session:
+            courses = []
+            links = session.exec(select(Link)).all()
+            for link in links:
+                if link.course not in courses:
+                    courses.append(link.course)
+            return courses
             
 
 if __name__ == "__main__":

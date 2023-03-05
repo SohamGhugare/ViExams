@@ -9,8 +9,8 @@ app = FastAPI(
     debug=True
 )
 
-@app.get("/api/")
-async def index():
+@app.get("/api/papers")
+async def fetch_papers(limit: int=5, course: str=None):
     return {"data": "root"}
 
 @app.post("/api/upload")

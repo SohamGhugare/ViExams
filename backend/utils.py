@@ -9,6 +9,8 @@ from discord.ext import commands
 from typing import List
 from io import BytesIO
 import secrets
+from database import Database
+from models import Link
 
 class OcrUtility:
     def parse_course(self, img_path=None, img=None, content=None):
@@ -32,6 +34,7 @@ class DiscordUtility(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
         self.debug_guild = None
+        self.db = Database()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -69,7 +72,12 @@ class DiscordUtility(commands.Cog):
                 msg = await channel.send(file=discord.File(fp=BytesIO(img), filename=f"{img_course}-{secrets.token_hex(8)}.png"))
                 img = msg.attachments[0]
                 ch = self.debug_guild.get_channel(1081625462784151652)
-                await ch.send(f"{img_course} - `{img.url}`")
+                
+                # Database operation
+                id = self.db.add_link(
+                    Link(course=img_course, url=img.url)
+                )
+                print(f"Added new paper link {id}")
 
     @commands.command()
     async def test_upload(self, ctx: commands.Context, img_path: str):

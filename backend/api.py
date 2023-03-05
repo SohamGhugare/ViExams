@@ -1,7 +1,8 @@
 from fastapi import FastAPI, File, UploadFile
 import uvicorn
-from utils import OcrUtility, DiscordUtility
-from bot import bot
+from utils import OcrUtility
+from webhook import WebhookHandler
+wh_handler = WebhookHandler()
 
 app = FastAPI(
     title="ViExams API",
@@ -16,12 +17,12 @@ async def index():
 async def upload_image(file: UploadFile = File()):
 
     contents = file.file.read()
-    with open(f"backend/cache/{file.filename}", "wb") as f:
+    img_path = f"backend/cache/{file.filename}"
+    with open(img_path, "wb") as f:
         f.write(contents)
 
-    course = OcrUtility().parse_course(f"backend/cache/{file.filename}")
-
-    DiscordUtility(bot).upload_image(f"backend/cache/{file.filename}")
+    wh_url = "https://discord.com/api/webhooks/1081793607926816808/BzjWmFl3D1fkftDM50A_J2Ek-M8oP4BOJPB5TqlpgzrSxUnFajBug0ynYwTJaxGrc1JY"
+    await wh_handler.send_webhook(webhook_url=wh_url, image_path=img_path)
     
 
     return {"response": {

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 import uvicorn
-from utils import OcrUtility
+from utils import OcrUtility, DiscordUtility
+from bot import bot
 
 app = FastAPI(
     title="ViExams API",
@@ -19,6 +20,9 @@ async def upload_image(file: UploadFile = File()):
         f.write(contents)
 
     course = OcrUtility().parse_course(f"backend/cache/{file.filename}")
+
+    DiscordUtility(bot).upload_image(f"backend/cache/{file.filename}")
+    
 
     return {"response": {
         "status": 200,

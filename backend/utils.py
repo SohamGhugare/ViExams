@@ -8,6 +8,7 @@ import discord
 from discord.ext import commands
 from typing import List
 
+
 class OcrUtility:
     def parse_course(self, img_path=None, content=None):
         if img_path:
@@ -32,6 +33,7 @@ class DiscordUtility(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         self.debug_guild = self.bot.get_guild(1081601039645544528)
+        
 
     @property
     def _predefined_courses(self) -> List[discord.CategoryChannel]:
@@ -59,6 +61,7 @@ class DiscordUtility(commands.Cog):
         await ctx.send("Testing...")
         img_path = "backend/tests/"+img_path+".jpg"
         await self.upload_image(img_path)
+
 
 
 def setup(bot):

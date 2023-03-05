@@ -1,8 +1,13 @@
 from fastapi import FastAPI, File, UploadFile
 import uvicorn
+import random
+
 from utils import OcrUtility
 from webhook import WebhookHandler
 wh_handler = WebhookHandler()
+
+from database import Database
+db = Database()
 
 app = FastAPI(
     title="ViExams API",
@@ -11,7 +16,23 @@ app = FastAPI(
 
 @app.get("/api/papers")
 async def fetch_papers(limit: int=5, course: str=None):
-    return {"data": "root"}
+    links = db.fetch_links(course)
+    if len(links) > limit:
+        l = []
+        while len(l) < limit:
+            item = random.choice(links)
+            if item not in l:
+                l.append(item)
+    else:
+        l = links.copy()
+
+    return {"response": {
+        "status": 200,
+        "data": {
+        "course": "random",
+        "image_urls": l
+        }
+    }}
 
 @app.post("/api/upload")
 async def upload_image(file: UploadFile = File()):

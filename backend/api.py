@@ -20,12 +20,11 @@ async def upload_image(file: UploadFile = File()):
 
     course = OcrUtility().parse_course(f"backend/cache/{file.filename}")
 
-    # return {"data": "Successfully uploaded image!", "status": 200}
     return {"response": {
         "status": 200,
         "data": "Successfully Uploaded!"
     }}
-    
+                                                                                                
 
 if __name__ == "__main__":
     uvicorn.run("api:app", reload=True)

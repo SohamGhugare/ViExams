@@ -43,9 +43,8 @@ class DiscordUtility(commands.Cog):
             return
         try:
             img = await message.attachments[0].read()
-            await message.add_reaction("✅")
             await self.upload_image(img=img)
-            # await message.delete()
+            await message.delete()
 
         except Exception as e:
             print(f"Err: {e}")

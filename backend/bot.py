@@ -12,7 +12,10 @@ bot = commands.Bot(command_prefix=">", intents=discord.Intents.all(), owner_ids=
 
 try:
     bot.load_extension(f"utils")
-    print(f"Successfully loaded utils cog")
+    print(f"Successfully loaded utils")
+
+    bot.load_extension("cogs.core")
+    print(f"Successfully loaded core")
 except Exception as e:
     print(e)
 
